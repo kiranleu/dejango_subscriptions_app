@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+{% load static from staticfiles %}
+{% load bootstrap_tags %}
+
+{% block head_scripts %}
+  {{ block.super }}
+  <script src="https://js.stripe.com/v2/" type="text/javascript"></script>
+  <script type="text/javascript">
+      //<![CDATA[
+      Stripe.publishableKey = '{{ publishable }}';
+      //]]>
+  </script>
+  <script type="text/javascript" src="{% static 'checkout/stripe.js' %}"></script>
+{% endblock %}
+
+{% block content %}
+<h1>Add Credit Card</h1>
+
+<form role="form" method="post" id="payment-form">
+
+    {{ form | as_bootstrap }}
+
+    {% csrf_token %}
+
+    <div class="form-group col-md-12">
+      <input class="btn btn-primary" id="submit_payment_btn" name="commit" type="submit" value="Add Card">
+    </div>
+</form>
+
+{% endblock %}

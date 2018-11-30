@@ -1,0 +1,73 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1>{{ request.user.username }}</h1>
+
+
+<div class="col-md-6">
+<img src="{{ MEDIA_URL}}{{ request.user.profile.image }}"/>
+</div>
+
+<div class="col-md-6">
+<h2>Billing</h2>
+{% if user.profile.stripe_id %}
+<h3>Credit Card</h3>
+<p>You have added card ending {{ user.profile.card_ending }}</p>
+<form method="post" action="{% url 'remove_credit_card' %}">
+    {% csrf_token %}
+    <input type="submit" value="remove"/>
+</form>
+
+<h3>Make Payment</h3>
+<p>Use the credit card on file to make a payment.</p>
+<form method="post" action="{% url 'make_payment' %}">
+    {% csrf_token %}
+    <input type=number name="amount"/>
+    <input type="submit" value="pay"/>
+</form>
+{% else %}
+<p>We have no credit card on file. <a href="{% url 'add_credit_card' %}">Add one</a></p>
+{% endif %}
+
+<h3>Subscription</h3>
+{% if request.user.profile.subscription_id %}
+    {%if subscription.status == "active" %}
+        <table class="table profile-user-details ">
+            <tr>
+                <th>Subscription:</th>
+                <td>{{subscription.plan.id}}</td>
+            </tr>
+            <tr>
+                <th>Status:</th>
+                <td>{% if cancelled_on == "not_applicable" %} Active {%else %}<span style="color:#ff0000;">Cancelled on</span> {{cancelled_on}} {%endif%}</td>
+            </tr>
+            <tr>
+                <th>Valid From:</th>
+                <td>{{start_date}}</td>
+            </tr>
+            <tr>
+                <th>Valid till:</th>
+                <td>{{end_date}}</td>
+            </tr>
+            <tr>
+                <th>Auto-Renew on expiry:</th>
+                <td>{% if subscription.cancel_at_period_end == False %}Yes {%else %}No{%endif%}</td>
+            </tr>
+        </table>
+        {% if cancelled_on == "not_applicable" %}
+            <a href="{% url 'unsubscribe' %}" class="btn btn-success pull-right">Cancel subscription</a>
+        {% endif %}
+    {% elif subscription.status == "canceled" %}
+        <p>Your {{subscription.plan.id}} has expired.</p>
+        <p>For further details on our subscription plans and subscribe, please go to our subscriptions page.</p>
+        <a href="{% url 'subscriptions' %}"class="btn btn-success pull-right">Subscription</a>
+    {% endif %}
+{% else %}
+    <p>You do not have an active subscription.</p>
+    <a href="{% url 'subscribe' %}">Subscribe</a>
+    
+{% endif %}
+
+</div>
+
+{% endblock %}
