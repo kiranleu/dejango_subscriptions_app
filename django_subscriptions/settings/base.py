@@ -25,7 +25,9 @@ SECRET_KEY = os.environ.get('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['django-sudscriptions-kiranleu.c9users.io' ]
+ALLOWED_HOSTS = ['django-sudscriptions-kiranleu.c9users.io',
+                 'kira-django-subscriptions.herokuapp.com',
+                ]
 
 
 # Application definition
