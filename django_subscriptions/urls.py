@@ -1,5 +1,4 @@
-"""django_subscriptions URL Configuration
-
+"""djangosubs URL Configuration
 The `urlpatterns` list routes URLs to views. For more information please see:
     https://docs.djangoproject.com/en/2.0/topics/http/urls/
 Examples:
@@ -14,8 +13,22 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path
+from django.urls import path, include
+from accounts.views import home, signup, profile
+from billing.views import add_credit_card, remove_credit_card, make_payment, subscribe, unsubscribe
+from django.views.static import serve
+from django.conf import settings
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('', home, name='home'),
+    path('accounts/', include('django.contrib.auth.urls')),
+    path('accounts/signup/', signup, name='signup'),
+    path('accounts/profile/', profile, name='profile'),
+    path('billing/add_credit_card/', add_credit_card, name='add_credit_card'),
+    path('billing/remove_credit_card/', remove_credit_card, name='remove_credit_card'),
+    path('billing/make_payment/', make_payment, name='make_payment'),
+    path('billing/subscribe/', subscribe, name='subscribe'),
+    path('billing/unsubscribe/', unsubscribe, name='unsubscribe'),
+    path('media/<path:path>', serve, {'document_root': settings.MEDIA_ROOT}),
 ]

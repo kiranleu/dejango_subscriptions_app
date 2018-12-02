@@ -3,10 +3,10 @@ from django.shortcuts import render, redirect
 from .forms import SignUpForm, ProfileForm
 from django.conf import settings
 from datetime import date
-
 import stripe
 
 stripe.api_key = settings.STRIPE_SECRET_KEY
+
 
 def home(request):
     return render(request, "index.html")
