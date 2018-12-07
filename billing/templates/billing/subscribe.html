@@ -6,14 +6,14 @@
 <h2>Annual Subscription</h2>
 <form method="POST" action='{% url 'subscribe' %}'>
     {% csrf_token %}
-    <input type="hidden" value="GOLD_ANNUAL" name="plan"/>
+    <input type="hidden" value="plan_E4PRgrvIV3I3FC" name="plan"/>
     <input class="btn btn-default" type="submit" value="Purchase €99.90"/>
 </form>
 
 <h2>Monthly Subscription</h2>
 <form method="POST" action='{% url 'subscribe' %}'>
     {% csrf_token %}
-    <input type="hidden" value="REG_MONTHLY" name="plan"/>
+    <input type="hidden" value="plan_E4PPWPxZTSg7dR" name="plan"/>
     <input class="btn btn-default" type="submit" value="Purchase €9.99"/>
 </form>
 
